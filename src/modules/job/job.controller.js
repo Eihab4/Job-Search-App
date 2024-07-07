@@ -1,3 +1,4 @@
+import { Application } from "../../../DataBase/models/application.models.js";
 import { Company } from "../../../DataBase/models/company.models.js";
 import { Job } from "../../../DataBase/models/job.models.js";
 import { User } from "../../../DataBase/models/user.models.js";
