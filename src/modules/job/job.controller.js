@@ -3,59 +3,54 @@ import { Company } from "../../../DataBase/models/company.models.js";
 import { Job } from "../../../DataBase/models/job.models.js";
 import { User } from "../../../DataBase/models/user.models.js";
 import { catchError } from "../../middleware/catchError.middleware.js";
+import { AppError } from '../../utils/AppError.utils.js'; // Assuming this is where AppError is defined
 
-
-// the api for adding a job
+// API for adding a job
 export const addJob = catchError(async (req, res, next) => {
-    const job = await Job.insertMany(req.body)
-    res.status(201).json({ message: "Jobs applied successfully", data: job });
-})
+    const job = await Job.create(req.body); // Use create instead of insertMany for single document
+    res.status(201).json({ message: "Job added successfully", data: job });
+});
 
-// the api for updating a job
-
+// API for updating a job
 export const updateJob = catchError(async (req, res, next) => {
     const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedJob) {
+        return next(new AppError("Job not found", 404));
+    }
     res.status(200).json({ message: "Job updated successfully", data: updatedJob });
 });
 
-// the api for deleting a job
-
+// API for deleting a job
 export const deleteJob = catchError(async (req, res, next) => {
     const job = await Job.findByIdAndDelete(req.params.id);
     if (!job) {
-        return next(new AppError({ message: "Job not found" }, 404));
+        return next(new AppError("Job not found", 404));
     }
     res.status(204).json({ message: "Job deleted successfully" });
 });
 
-// the api for getting all jobs with company info
-
+// API for getting all jobs with company info
 export const getAllJobsWithCompanyInfo = catchError(async (req, res, next) => {
-    // Fetch all jobs and populate the company information
     const jobs = await Job.find().populate('addedBy', 'companyName description industry address numberOfEmployees companyEmail');
-
-    // Check if no jobs are found
     if (!jobs.length) {
         return next(new AppError("No jobs found", 404));
     }
-
-    // Send the jobs with populated company information
     res.status(200).json({ jobs });
 });
 
-// the api for getting all jobs for a specific company
-
+// API for getting all jobs for a specific company
 export const getAllJobsForSpecificCompany = catchError(async (req, res, next) => {
     const companyName = req.params.name;
     const company = await Company.findOne({ companyName });
     if (!company) {
-        return next(new AppError({ message: "Company not found" }, 404));
+        return next(new AppError("Company not found", 404));
     }
     const jobs = await Job.find({ addedBy: company._id });
-    res.status(200).json({ message:"all jobs",jobs });
-})
+    res.status(200).json({ message: "Jobs for specific company", jobs });
+});
 
-export const getAllJobsWithFilters= catchError(async (req, res) => {
+// API for getting all jobs that match filters
+export const getAllJobsWithFilters = catchError(async (req, res, next) => {
     const { workingTime, jobLocation, seniorityLevel, jobTitle, technicalSkills } = req.query;
     const filters = {};
 
@@ -66,18 +61,14 @@ export const getAllJobsWithFilters= catchError(async (req, res) => {
     if (jobTitle) filters.jobTitle = jobTitle;
     if (technicalSkills) filters.technicalSkills = { $in: technicalSkills.split(',') };
 
-    // Find jobs that match the filters and populate company information
     const jobs = await Job.find(filters).populate('addedBy', 'companyName description industry address numberOfEmployees companyEmail');
+    res.status(200).json({ message: "Jobs that match filters", jobs });
+});
 
-    // Return the matching jobs
-    res.status(200).json({ message: 'Jobs that match filters', jobs });
-})
-
-// the api for applying on a job
-
+// API for applying on a job
 export const applyJob = catchError(async (req, res, next) => {
     const { jobId, userId, userTechSkills, userSoftSkills } = req.body;
-    const userResume = req.file.path; // get the uploaded file path
+    const userResume = req.file.path; // Assuming you handle file uploads correctly
 
     // Check if the job and user exist
     const job = await Job.findById(jobId);
@@ -98,6 +89,5 @@ export const applyJob = catchError(async (req, res, next) => {
         userResume
     });
 
-    // Send a success message
     res.status(200).json({ message: "Job applied successfully", application });
 });

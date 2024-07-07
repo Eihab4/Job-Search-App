@@ -8,14 +8,13 @@ export const signUpValidation = Joi.object({
     lastName: Joi.string().min(2).max(50).required(),
     email: Joi.string().email().required(),
     password: Joi.string().pattern(new RegExp('^[A-Z][A-Za-z0-9]{8,40}$')).required(),
-    rePassword: Joi.valid(Joi.ref('password')).required(),
+    rePassword: Joi.string().valid(Joi.ref('password')).required(),
     phone: Joi.string().pattern(/^01[0-2,5]{1}[0-9]{8}$/).required(),
     recoveryEmail: Joi.string().email().required(),
     DOB: Joi.date().required(),
-    status: Joi.string().valid(statusEnum).required(),
-    role: Joi.string().valid(roleEnum).required()
-})
-
+    status: Joi.string().valid(...statusEnum).required(),
+    role: Joi.string().valid(...roleEnum).required()
+});
 // Joi schema for validating the signIn status
 
 export const signInValidation = Joi.object({

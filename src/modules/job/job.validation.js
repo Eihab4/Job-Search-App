@@ -3,10 +3,10 @@ import { jobLocationEnum, seniorityLevelEnum, workingTimeEnum } from "../../../D
 
 export const addJobValidationSchema = Joi.object({
     jobTitle: Joi.string().required(),
-    jobLocation: Joi.string().valid(jobLocationEnum).required(),
-    workingTime: Joi.string().valid(workingTimeEnum).required(),
+    jobLocation: Joi.string().valid(...jobLocationEnum).required(),
+    workingTime: Joi.string().valid(...workingTimeEnum).required(),
     jobDescription: Joi.string().required(),
-    seniorityLevel: Joi.string().valid(seniorityLevelEnum).required(),
+    seniorityLevel: Joi.string().valid(...seniorityLevelEnum).required(),
     technicalSkills: Joi.array().items(Joi.string().required()).required(),
     softSkills: Joi.array().items(Joi.string().required()).required(),
     addedBy: Joi.string().hex().length(24).required(),
@@ -17,14 +17,14 @@ export const addJobValidationSchema = Joi.object({
 
 export const updateJobValidationSchema = Joi.object({
     jobTitle: Joi.string().min(1).max(100),
-    jobLocation: Joi.string().valid(jobLocationEnum),
-    workingTime: Joi.string().valid(workingTimeEnum),
+    jobLocation: Joi.string().valid(...jobLocationEnum), // Spread the array using spread operator
+    workingTime: Joi.string().valid(...workingTimeEnum), // Spread the array using spread operator
     jobDescription: Joi.string(),
-    seniorityLevel: Joi.string().valid(seniorityLevelEnum),
+    seniorityLevel: Joi.string().valid(...seniorityLevelEnum), // Spread the array using spread operator
     technicalSkills: Joi.array().items(Joi.string()),
     softSkills: Joi.array().items(Joi.string()),
     field: Joi.string()
-})
+});
 
 // apply job schema
 
@@ -33,5 +33,5 @@ export const applyJobValidationSchema = Joi.object({
     userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
     userTechSkills: Joi.array().items(Joi.string()).required(),
     userSoftSkills: Joi.array().items(Joi.string()).required(),
-    userResume: Joi.string().pattern(/.*\.pdf$/).required()
+    userResume: Joi.string().required()
 });

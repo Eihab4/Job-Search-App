@@ -2,7 +2,7 @@ import { Router } from "express";
 import { verifyToken } from "../../middleware/verifyToken.middleware.js";
 import { validate } from "../../middleware/validate.middleware.js";
 import { addCompanyValidation, updateCompanyValidation } from "./company.validation.js";
-import { addCompany } from "./company.controller.js";
+import { addCompany, deleteCompany, getAllApplicationsForSpecificJob, getCompany, getCompanyByName, updateCompany } from "./company.controller.js";
 import { checkDuplicateCompany } from "../../middleware/checkDuplicateCompany.middleware.js";
 import { checkRole } from "../../middleware/checkRole.middleware.js";
 
