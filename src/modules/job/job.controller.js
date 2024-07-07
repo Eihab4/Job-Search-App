@@ -1,5 +1,6 @@
 import { Company } from "../../../DataBase/models/company.models.js";
 import { Job } from "../../../DataBase/models/job.models.js";
+import { User } from "../../../DataBase/models/user.models.js";
 import { catchError } from "../../middleware/catchError.middleware.js";
 
 
@@ -71,3 +72,31 @@ export const getAllJobsWithFilters= catchError(async (req, res) => {
     res.status(200).json({ message: 'Jobs that match filters', jobs });
 })
 
+// the api for applying on a job
+
+export const applyJob = catchError(async (req, res, next) => {
+    const { jobId, userId, userTechSkills, userSoftSkills } = req.body;
+    const userResume = req.file.path; // get the uploaded file path
+
+    // Check if the job and user exist
+    const job = await Job.findById(jobId);
+    if (!job) {
+        return next(new AppError("Job not found", 404));
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+        return next(new AppError("User not found", 404));
+    }
+
+    // Create a new application
+    const application = await Application.create({
+        jobId,
+        userId,
+        userTechSkills,
+        userSoftSkills,
+        userResume
+    });
+
+    // Send a success message
+    res.status(200).json({ message: "Job applied successfully", application });
+});

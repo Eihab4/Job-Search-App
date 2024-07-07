@@ -5,6 +5,9 @@ import { globalError } from './src/middleware/globalError.middleware.js';
 const app = express()
 const port = process.env.PORT || 3000;
 
+process.on('uncaughtException', (err) => {
+});
+
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use(express.json());
 
@@ -13,6 +16,5 @@ app.use('*', (req, res, next) => {
 })
 app.use(globalError)
 process.on('unhandledRejection', (err) => {
-    console.log(err);
 })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -25,3 +25,13 @@ export const updateJobValidationSchema = Joi.object({
     softSkills: Joi.array().items(Joi.string()),
     field: Joi.string()
 })
+
+// apply job schema
+
+export const applyJobValidationSchema = Joi.object({
+    jobId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
+    userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
+    userTechSkills: Joi.array().items(Joi.string()).required(),
+    userSoftSkills: Joi.array().items(Joi.string()).required(),
+    userResume: Joi.string().pattern(/.*\.pdf$/).required()
+});
