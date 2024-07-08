@@ -42,6 +42,12 @@ export const updatePasswordValidation = Joi.object({
     reNewPassword: Joi.valid(Joi.ref('newPassword')).required()
 })
 
+// Joi schema for validating the forgot password
+export const forgotPasswordValidation = Joi.object({
+    email: Joi.string().email(),
+    phone: Joi.string().pattern(/^01[0-2,5]{1}[0-9]{8}$/)
+}).xor('email','phone')
+
 // Joi schema for validating the new password
 
 export const resetPasswordValidation = Joi.object({

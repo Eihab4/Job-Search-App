@@ -11,7 +11,7 @@ export const sendEmail = async(email,otp) =>{
     });
     
     const info = await transporter.sendMail({
-    from: '"Saraha ✉️" <eihabmohamed19@gmail.com>',
+    from: '"Job Search ✉️" <eihabmohamed19@gmail.com>',
     to: email,
     subject: "New Message ! ",
     html: emailHtml(otp),

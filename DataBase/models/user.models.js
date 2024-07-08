@@ -28,5 +28,25 @@ userSchema.pre('save', function (next) {
     next();
 });
 
+
+function updateFullName(next) {
+    const update = this.getUpdate();
+    if (update.firstName || update.lastName) {
+        const firstName = update.firstName || this.get('firstName');
+        const lastName = update.lastName || this.get('lastName');
+        update.fullName = `${firstName} ${lastName}`;
+    }
+    next();
+}
+
+// Pre hook for findOneAndUpdate to set the full name
+userSchema.pre('findOneAndUpdate', updateFullName);
+
+// Pre hook for updateOne to set the full name
+userSchema.pre('updateOne', updateFullName);
+
+// Pre hook for findByIdAndUpdate to set the full name
+userSchema.pre('findByIdAndUpdate', updateFullName);
+
 // Export the User model
 export const User = model('User', userSchema)
