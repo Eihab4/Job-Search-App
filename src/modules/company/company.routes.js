@@ -13,7 +13,7 @@ companyRouter.put('/updateCompany/:id', verifyToken, hrChecker, validate(updateC
 companyRouter.delete('/deleteCompany/:id', verifyToken, hrChecker, deleteCompany)
 companyRouter.get('/getCompany/:id', verifyToken, hrChecker, getCompany)
 companyRouter.get('/getCompanyByName/:name', verifyToken, getCompanyByName)
-companyRouter.get('/getAllApplicationsForSpecificJob', verifyToken, getAllApplicationsForSpecificJob)
+companyRouter.get('/getAllApplicationsForSpecificJob/:id', verifyToken, getAllApplicationsForSpecificJob)
 
 
 

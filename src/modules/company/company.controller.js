@@ -2,6 +2,7 @@ import { Application } from "../../../DataBase/models/application.models.js";
 import { Company } from "../../../DataBase/models/company.models.js";
 import { Job } from "../../../DataBase/models/job.models.js";
 import { catchError } from "../../middleware/catchError.middleware.js";
+import { AppError } from "../../utils/AppError.utils.js";
 
 
 // api for adding a company
@@ -25,22 +26,33 @@ export const updateCompany = catchError(async (req, res, next) => {
 // the api for deleting a company
 
 
-export const deleteCompany = catchError(async (req, res, next) => { 
-
-    const company = await Company.findByIdAndDelete(req.params.id)
+export const deleteCompany = catchError(async (req, res, next) => {
+    // Find the company by ID
+    const company = await Company.findById(req.params.id);
+    
     if (!company) {
-        return next(new AppError({ message: "Company not found" }, 404));
+        return next(new AppError("Company not found", 404));
     }
-    res.status(204).json({ message: 'Company deleted successfully' })
-})
+
+    // Find all jobs added by the HR of this company
+    const jobs = await Job.find({ addedBy: company.hr });
+
+    // Delete all job applications related to these jobs
+    const jobIds = jobs.map(job => job._id);
+    await Application.deleteMany({ jobId: { $in: jobIds } });
+
+    // Delete all jobs added by the HR of this company
+    await Job.deleteMany({ addedBy: company.hr });
+
+    // Delete the company itself
+    await Company.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({ message: 'Company deleted successfully' });
+});
 
 // api for getting company details
 
-export const getCompany = catchError(async (req, res, next) => {
-    // Validate company ID
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return next(new AppError("Invalid company ID", 400));
-    }
+export const getCompany = catchError(async (req, res, next) => {  
 
     // Find company by ID
     const company = await Company.findById(req.params.id);
@@ -79,22 +91,25 @@ export const getCompanyByName = catchError(async (req, res, next) => {
 // api to get All Applications For Specific Job
 
 export const getAllApplicationsForSpecificJob = catchError(async (req, res, next) => {
-    const hrId = req.user._id;
+    const companyId = req.params.id; // Assuming companyId is passed in req.params.id
 
-    // Find company by HR ID
-    const company = await Company.findOne({ hr: hrId });
+    // Find company by ID
+    const company = await Company.findById(companyId);
     if (!company) {
         return next(new AppError("Company not found", 404));
     }
 
-    // Get all job IDs for the company's available jobs
-    const allJobsId = company.availableJobs;
+    // Find jobs associated with the company and added by the company's HR
+    const jobs = await Job.find({ field: company.industry, addedBy: company.hr }); // Ensure jobs are created by company's HR
 
-    // Find all applications for the jobs belonging to this company and populate user details
-    const applications = await Application.find({ jobId: { $in: allJobsId } })
+    // Get job IDs for all jobs associated with the company
+    const jobIds = jobs.map(job => job._id);
+
+    // Find applications for these jobs and populate user details
+    const applications = await Application.find({ jobId: { $in: jobIds } })
         .populate('userId', 'firstName lastName email phone');
 
     // Respond with the found applications including user details
-    res.status(200).json({ message: 'Applications for specific job retrieved successfully', applications });
+    res.status(200).json({ message: 'Applications for specific jobs retrieved successfully', applications });
 });
 

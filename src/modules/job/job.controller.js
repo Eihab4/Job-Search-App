@@ -31,11 +31,26 @@ export const deleteJob = catchError(async (req, res, next) => {
 
 // API for getting all jobs with company info
 export const getAllJobsWithCompanyInfo = catchError(async (req, res, next) => {
-    const jobs = await Job.find().populate('addedBy', 'companyName description industry address numberOfEmployees companyEmail');
+    // Step 1: Find all jobs
+    const jobs = await Job.find();
     if (!jobs.length) {
         return next(new AppError("No jobs found", 404));
     }
-    res.status(200).json({ jobs });
+
+    // Step 2: Extract hr IDs from jobs
+    const hrIds = jobs.map(job => job.addedBy);
+
+    // Step 3: Find companies corresponding to the hr IDs
+    const companies = await Company.find({ hr: { $in: hrIds } });
+
+    // Step 4: Attach company information to each job
+    const jobsWithCompanyInfo = jobs.map(job => {
+        const company = companies.find(comp => comp.hr.equals(job.addedBy));
+        return { ...job.toObject(), company };
+    });
+
+    // Step 5: Respond with the jobs and their respective company info
+    res.status(200).json({ jobs: jobsWithCompanyInfo });
 });
 
 // API for getting all jobs for a specific company
@@ -45,7 +60,7 @@ export const getAllJobsForSpecificCompany = catchError(async (req, res, next) =>
     if (!company) {
         return next(new AppError("Company not found", 404));
     }
-    const jobs = await Job.find({ addedBy: company._id });
+    const jobs = await Job.find({ addedBy: company.hr });
     res.status(200).json({ message: "Jobs for specific company", jobs });
 });
 

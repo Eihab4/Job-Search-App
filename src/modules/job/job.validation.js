@@ -23,7 +23,8 @@ export const updateJobValidationSchema = Joi.object({
     seniorityLevel: Joi.string().valid(...seniorityLevelEnum), // Spread the array using spread operator
     technicalSkills: Joi.array().items(Joi.string()),
     softSkills: Joi.array().items(Joi.string()),
-    field: Joi.string()
+    field: Joi.string(),
+    id: Joi.string().required(),
 });
 
 // apply job schema

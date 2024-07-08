@@ -13,7 +13,6 @@ const companySchema = new Schema({
     numberOfEmployees: { type: Number, min: 10, max: 50000 },
     companyEmail: { type: String, unique: true },
     hr: { type: Schema.Types.ObjectId, ref: 'User' },
-    availableJobs: { type: [String] }
 });
 
 // Export the Company model
