@@ -1,9 +1,9 @@
-
 export function catchError(callback) {
-
-    return (req, res, next) => {
-        callback(req, res, next).catch(err => {
-            next(err)
-        })
-    }
+    return async (req, res, next) => {
+        try {
+            await callback(req, res, next); // Ensure callback is awaited if it returns a promise
+        } catch (err) {
+            next(err); // Pass any caught error to the next error-handling middleware
+        }
+    };
 }

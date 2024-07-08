@@ -13,7 +13,7 @@ export const signUpValidation = Joi.object({
     recoveryEmail: Joi.string().email().required(),
     DOB: Joi.date().required(),
     status: Joi.string().valid(...statusEnum).required(),
-    role: Joi.string().valid(...roleEnum).required()
+    role: Joi.string().valid(...roleEnum).required(),
 });
 // Joi schema for validating the signIn status
 

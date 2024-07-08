@@ -43,7 +43,7 @@ export const signIn = catchError(async (req, res, next) => {
     if (user.phone) payload.phone = user.phone;
 
     // Generate token
-    const token = jwt.sign(payload, 'jobSearchPrivateKey', { expiresIn: '1h' });
+    const token = jwt.sign(payload, 'jobSearchPrivateKey', { expiresIn: '2h' });
 
     // Send response
     res.status(200).json({ message: "login successfully", token });

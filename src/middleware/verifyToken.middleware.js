@@ -12,11 +12,11 @@ export const verifyToken = catchError((req, res, next) => {
 
     const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, "", (err, decoded) => {
+    jwt.verify(token, "jobSearchPrivateKey", (err, decoded) => {
         if (err) {
             return next(new AppError("Invalid token", 401));
         }
-        req.user = decoded;
+        req.user = decoded; // Set decoded user information to req.user
         next();
     });
-})
+});

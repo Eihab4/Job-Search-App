@@ -13,9 +13,9 @@ process.on('uncaughtException', (err) => {
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use(express.json());
-app.use(userRouter)
-app.use(companyRouter)
-app.use(jobRouter)
+app.use('/user',userRouter)
+app.use('/company',companyRouter)
+app.use('job',jobRouter)
 
 app.use('*', (req, res, next) => {
     next(new AppError(`path Error at ${req.originalUrl}`,404));

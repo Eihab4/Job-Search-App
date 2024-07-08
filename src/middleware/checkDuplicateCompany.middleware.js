@@ -1,4 +1,5 @@
 import { Company } from "../../DataBase/models/company.models.js";
+import { AppError } from "../utils/AppError.utils.js";
 import { catchError } from "./catchError.middleware.js";
 
 
