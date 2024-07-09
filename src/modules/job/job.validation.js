@@ -29,10 +29,8 @@ export const updateJobValidationSchema = Joi.object({
 
 // apply job schema
 
-export const applyJobValidationSchema = Joi.object({
-    jobId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
-    userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
-    userTechSkills: Joi.array().items(Joi.string()).required(),
-    userSoftSkills: Joi.array().items(Joi.string()).required(),
-    userResume: Joi.string().required()
-});
+// export const applyJobValidationSchema = Joi.object({
+//     jobId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
+//     userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(),
+//     userResume: Joi.string().required()
+// });

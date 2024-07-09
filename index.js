@@ -13,6 +13,7 @@ const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use(express.json());
+app.use(express.static('uploads'))
 app.use('/user',userRouter)
 app.use('/company',companyRouter)
 app.use('/job',jobRouter)

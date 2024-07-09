@@ -21,8 +21,8 @@ const jobSchema = new Schema({
     seniorityLevel: { type: String, enum: seniorityLevelEnum },
     technicalSkills: { type: [String] },
     softSkills: { type: [String] },
-    addedBy: { type: Schema.Types.ObjectId, ref:Company },
-    field:{type:String}
+    addedBy: { type: Schema.Types.ObjectId, ref: 'Company' },
+    field: { type: String }
 });
 
 // Export the Job model

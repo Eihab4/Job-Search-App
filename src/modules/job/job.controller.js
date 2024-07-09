@@ -76,13 +76,16 @@ export const getAllJobsWithFilters = catchError(async (req, res, next) => {
     if (jobTitle) filters.jobTitle = jobTitle;
     if (technicalSkills) filters.technicalSkills = { $in: technicalSkills.split(',') };
 
-    const jobs = await Job.find(filters).populate('addedBy', 'companyName description industry address numberOfEmployees companyEmail');
+    // Find jobs that match the filters and populate 'addedBy' with company details
+    const jobs = await Job.find(filters)
+
     res.status(200).json({ message: "Jobs that match filters", jobs });
 });
 
+
 // API for applying on a job
 export const applyJob = catchError(async (req, res, next) => {
-    const { jobId, userId, userTechSkills, userSoftSkills } = req.body;
+    const { jobId, userId } = req.body;
     const userResume = req.file.path; // Assuming you handle file uploads correctly
 
     // Check if the job and user exist
@@ -99,10 +102,7 @@ export const applyJob = catchError(async (req, res, next) => {
     const application = await Application.create({
         jobId,
         userId,
-        userTechSkills,
-        userSoftSkills,
         userResume
     });
-
     res.status(200).json({ message: "Job applied successfully", application });
 });
