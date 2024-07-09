@@ -1,6 +1,6 @@
 # Job Search App API
 
-Welcome to the documentation for our comprehensive Job Search App API! This system is built using MongoDB and Node.js, offering a robust solution for managing users, companies, jobs, and job applications.
+Welcome to the Job Search App API documentation, your gateway to a powerful system designed with MongoDB and Node.js. Our API provides a robust solution for efficiently managing users, companies, job listings, and applications. Whether you're a job seeker or an employer, our API offers seamless functionality to streamline the hiring process.
 
 ---
 
@@ -102,18 +102,6 @@ To set up the Job Search App API locally, follow these steps:
 7. **Apply to Job**
    - Apply for a job listing, adding a new application document to the Applications collection. Authorization required with role (User).
 
-## Usage Examples
-
-Explore and test our API endpoints using [Postman](https://documenter.getpostman.com/view/34440263/2sA3XWcyUq#4bee873d-38d1-4858-8f9e-de49638fe7b9). Detailed usage examples are provided for each API endpoint.
-
-## Contributing
-
-Contributions to the Job Search App API project are welcome! Please fork the repository, make improvements, and submit pull requests.
-
-## Postman Collection
-
-Access our complete API documentation and interact with endpoints through our [Postman Collection](https://documenter.getpostman.com/view/34440263/2sA3e2epGz).
-
 ---
 
 ## Models
@@ -151,3 +139,16 @@ Access our complete API documentation and interact with endpoints through our [P
 6. **technicalSkills**: Array of Strings
 7. **softSkills**: Array of Strings
 8. **addedBy**: ObjectId (reference to User Collection, Company_HR)
+
+   
+## Usage Examples
+
+Explore and test our API endpoints using [Postman](https://documenter.getpostman.com/view/34440263/2sA3e2epGz). Detailed usage examples are provided for each API endpoint.
+
+## Contributing
+
+Contributions to the Job Search App API project are welcome! Please fork the repository, make improvements, and submit pull requests.
+
+## Postman Collection
+
+Access our complete API documentation and interact with endpoints through our [Postman Collection](https://documenter.getpostman.com/view/34440263/2sA3e2epGz).
