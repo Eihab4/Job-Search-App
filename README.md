@@ -11,9 +11,10 @@ Welcome to the Job Search App API documentation, your gateway to a powerful syst
 3. [User APIs](#user-apis)
 4. [Company APIs](#company-apis)
 5. [Jobs APIs](#jobs-apis)
-6. [Usage Examples](#usage-examples)
-7. [Contributing](#contributing)
-8. [Postman Collection](#postman-collection)
+6. [Models](#models)
+7. [Usage Examples](#usage-examples)
+8. [Contributing](#contributing)
+9. [Postman Collection](#postman-collection)
 
 ---
 
@@ -102,8 +103,6 @@ To set up the Job Search App API locally, follow these steps:
 7. **Apply to Job**
    - Apply for a job listing, adding a new application document to the Applications collection. Authorization required with role (User).
 
----
-
 ## Models
 
 ### User Collection
@@ -140,7 +139,14 @@ To set up the Job Search App API locally, follow these steps:
 7. **softSkills**: Array of Strings
 8. **addedBy**: ObjectId (reference to User Collection, Company_HR)
 
-   
+### Application Collection
+
+1. **jobId**: ObjectId (reference to Job Collection)
+2. **userId**: ObjectId (reference to User Collection)
+3. **userTechSkills**: Array of Strings
+4. **userSoftSkills**: Array of Strings
+5. **userResume**: String (must be a PDF, uploaded to Cloudinary)
+
 ## Usage Examples
 
 Explore and test our API endpoints using [Postman](https://documenter.getpostman.com/view/34440263/2sA3e2epGz). Detailed usage examples are provided for each API endpoint.
