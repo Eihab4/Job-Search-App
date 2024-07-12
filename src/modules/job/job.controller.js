@@ -86,7 +86,7 @@ export const getAllJobsWithFilters = catchError(async (req, res, next) => {
 // API for applying on a job
 export const applyJob = catchError(async (req, res, next) => {
     const { jobId, userId } = req.body;
-    const userResume = req.file.path; // Assuming you handle file uploads correctly
+    const userResume = req.file.fileName;
 
     // Check if the job and user exist
     const job = await Job.findById(jobId);
