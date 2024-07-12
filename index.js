@@ -1,5 +1,4 @@
-process.on('uncaughtException', (err) => {
-});
+process.on('uncaughtException');
 import express from 'express'
 import {dbConnection} from './DataBase/dbConnection.js'
 import { AppError } from './src/utils/AppError.utils.js';
@@ -22,6 +21,5 @@ app.use('*', (req, res, next) => {
     next(new AppError(`path Error at ${req.originalUrl}`,404));
 })
 app.use(globalError)
-process.on('unhandledRejection', (err) => {
-})
+process.on('unhandledRejection')
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
