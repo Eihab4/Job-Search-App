@@ -14,7 +14,6 @@ Welcome to the Job Search App API documentation, your gateway to a powerful syst
 6. [Models](#models)
 7. [Usage Examples](#usage-examples)
 8. [Contributing](#contributing)
-9. [Postman Collection](#postman-collection)
 
 ---
 
@@ -154,7 +153,3 @@ Explore and test our API endpoints using [Postman](https://documenter.getpostman
 ## Contributing
 
 Contributions to the Job Search App API project are welcome! Please fork the repository, make improvements, and submit pull requests.
-
-## Postman Collection
-
-Access our complete API documentation and interact with endpoints through our [Postman Collection](https://documenter.getpostman.com/view/34440263/2sA3e2epGz).
