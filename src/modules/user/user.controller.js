@@ -35,9 +35,7 @@ export const signIn = catchError(async (req, res, next) => {
     await User.findByIdAndUpdate(user._id, { $set: changeStatus });
 
     // Create JWT payload
-    const payload = {
-        password: user.password
-    };
+    const payload = {};
 
     if (user.email) payload.email = user.email;
     if (user.phone) payload.phone = user.phone;
